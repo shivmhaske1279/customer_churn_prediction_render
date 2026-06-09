@@ -13,7 +13,7 @@ if os.path.exists(MODEL_PATH):
 else:
     model = None
 
-# Modern, attractive HTML layout with shadows and clean components
+# Modern, attractive HTML layout with proper dropdowns for categorical data
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -102,7 +102,6 @@ HTML_TEMPLATE = """
             font-weight: 600;
             color: #4a5568;
             margin-bottom: 8px;
-            text-transform: capitalize;
         }
 
         .form-group input, .form-group select {
@@ -115,6 +114,7 @@ HTML_TEMPLATE = """
             background-color: #fff;
             transition: all 0.2s ease;
             box-shadow: var(--shadow-sm);
+            width: 100%;
         }
 
         .form-group input:focus, .form-group select:focus {
@@ -181,25 +181,40 @@ HTML_TEMPLATE = """
 <div class="container">
     <div class="header">
         <h1>Predictive Analytics Dashboard</h1>
-        <p>Enter the features below to evaluate the Naive Bayes model output</p>
+        <p>Enter details below to evaluate the Naive Bayes model output</p>
     </div>
 
     <div class="card">
         <form method="POST" action="/predict">
             <div class="grid">
+                
                 <div class="form-group">
                     <label for="age">Age</label>
                     <input type="number" id="age" name="age" required min="0" placeholder="e.g. 34">
                 </div>
+
                 <div class="form-group">
-                    <label for="gender">Gender (Encoded)</label>
-                    <input type="number" id="gender" name="gender" required placeholder="e.g. 0 or 1" step="any">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="" disabled selected>Select Gender</option>
+                        <option value="0">Female</option>
+                        <option value="1">Male</option>
+                        <option value="2">Other / Non-binary</option>
+                    </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="city">City (Encoded)</label>
-                    <input type="number" id="city" name="city" required placeholder="e.g. 1, 2, 3" step="any">
+                    <label for="city">City Location</label>
+                    <select id="city" name="city" required>
+                        <option value="" disabled selected>Select City</option>
+                        <option value="0">New York</option>
+                        <option value="1">Los Angeles</option>
+                        <option value="2">Chicago</option>
+                        <option value="3">Houston</option>
+                        <option value="4">Other City</option>
+                    </select>
                 </div>
+
                 <div class="form-group">
                     <label for="tenure_months">Tenure Months</label>
                     <input type="number" id="tenure_months" name="tenure_months" required min="0" placeholder="e.g. 12">
@@ -209,6 +224,7 @@ HTML_TEMPLATE = """
                     <label for="avg_order_value">Avg Order Value ($)</label>
                     <input type="number" id="avg_order_value" name="avg_order_value" required step="any" placeholder="e.g. 85.50">
                 </div>
+
                 <div class="form-group">
                     <label for="total_orders">Total Orders</label>
                     <input type="number" id="total_orders" name="total_orders" required min="0" placeholder="e.g. 5">
@@ -218,14 +234,20 @@ HTML_TEMPLATE = """
                     <label for="last_purchase_days_ago">Last Purchase (Days Ago)</label>
                     <input type="number" id="last_purchase_days_ago" name="last_purchase_days_ago" required min="0" placeholder="e.g. 14">
                 </div>
+
                 <div class="form-group">
-                    <label for="support_tickets">Support Tickets</label>
+                    <label for="support_tickets">Active Support Tickets</label>
                     <input type="number" id="support_tickets" name="support_tickets" required min="0" placeholder="e.g. 0">
                 </div>
                 
                 <div class="form-group" style="grid-column: span 2;">
-                    <label for="subscription_type">Subscription Type (Encoded)</label>
-                    <input type="number" id="subscription_type" name="subscription_type" required placeholder="e.g. 0, 1, 2" step="any">
+                    <label for="subscription_type">Subscription Tier</label>
+                    <select id="subscription_type" name="subscription_type" required>
+                        <option value="" disabled selected>Select Subscription Tier</option>
+                        <option value="0">Free / Basic</option>
+                        <option value="1">Standard (Monthly)</option>
+                        <option value="2">Premium (Annual)</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn-submit">Run Model Prediction</button>
